@@ -1,99 +1,120 @@
-#include<stdio.h>
-#include"myarrfunc.h"
 
-int main(){
-    int mass[MASIV]; // закрепление массива в программе
-    int razmer = 0; // размер массива (добавил 0 чтоб избежать не тех значений наверняка)
-    char vvod; // для выбора
-// где написано УСЛОВИЕ- не забыть if size == 0 (чтобы программа начинала с размера массива)
-    printf("Здравствуйте, добро пожаловать в мою программу, пожалуйста выберите один из вариантов: \n");
-    while(vvod != 'g') {
-        printf("a. Задать размер массива\n");
-        printf("b. Заполнить массив\n");
-        printf("c. Показать массив (значения и адреса)\n");
-        printf("d. Найти максимум в диапазоне индексов\n");
-        printf("e. Найти индексы в диапазоне значений\n");
-        printf("f. Найти элементы ниже среднего\n");
-        printf("g. Выход\n");
-        printf("Выберите опцию: ");
-        vvod = getchar(); // ввод варианта
-        if (vvod == EOF){
-            printf("Ошибка");
+#include <stdio.h>
+#include "myarrfunc.h"
+// Максимальный размер массива
+#define MAX_RAZMER 777
+int main() {
+    int massiv[MAX_RAZMER];
+    int razmer = 0;
+    char vibor;
+    int massiv_sozdan = 0; // флаг, создан ли массив
+    while (1) {
+        printf("меню:\n");
+        printf("a) задать размер массива\n");
+        printf("b) заполнить массив\n");
+        printf("c) представление массива (значение, адреса)\n");
+        printf("d) минималльное значение в диапазоне k,m\n");
+        printf("e) количество элементов между равными числами\n");
+        printf("f) индексы элементов ниже значения k\n");
+        printf("g) выход\n");
+        printf("ваш выбор: ");
+        vybor = getchar();
+        if (vybor == EOF){
+            printf("ошибка");
             break;
         }
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF); // очистка буфера
-        switch(vvod){
-            case 'a': 
-                Velichina(&razmer);
-                break;
-            case 'b': /// заполнение массива (УСЛОВИЕ)
-                if (razmer == 0){
-                    printf("Ошибка, введите размер массива\n");
-                }
-                else{
-                    zapolnenie(mass, razmer);
-                }
-                break;
-            case 'c': /// показ массива (УСЛОВИЕ)
-                if (razmer == 0){
-                    printf("Ошибка, введите размер массива\n");
-                }
-                else{
-                    pechat(mass, razmer);
+        int c; // очистка буфера после scanf
+        while ((c = getchar()) != '\n' && c != EOF);
+        switch (vibor) {
+            case 'a':
+            case 'A':
+                printf("введите размер массива (максимальный размер %d): ", MAX_RAZMER);
+                scanf("%d", &razmer);
+                int c; // очистка буфера
+                while ((c = getchar()) != '\n' && c != EOF);
+                if (razmer > 0 && razmer <= MAX_RAZMER) {
+                    sozdat(massiv, razmer);
+                    massiv_sozdan = 1;
+                } else {
+                    printf("неверный размер! должен быть от 1 до %d\n", MAX_RAZMER);
                 }
                 break;
-            case 'd': /// ищем максимум(УСЛОВИЕ)
-                if (razmer == 0){
-                    printf("Ошибка, введите размер массива\n");
-                }
-                else{
-                    int k, m;
-                    printf("Введите начальный диапазон k: ");
-                    scanf("%d", &k);
-                    int c; /// очистка буфера 
-                    while ((c = getchar()) != '\n' && c != EOF);
-                    printf("Введите конечный диапазон m: ");
-                    scanf("%d", &m);
-                    while ((c = getchar()) != '\n' && c != EOF); // чтоб никто ничё не сломал)
-                    int max = maxrange(mass, razmer, k, m);
-                    if (max != -1){
-                        printf("Макс.элемент между %d и %d это %d\n", k, m, max);
-                    }
-                }
-                break;    
-            case 'e': /// индекс (УСЛОВИЕ)
-                if (size == 0){
-                    printf("Ошибка, нужно сначала вести размер массива!\n");
-                }
-                else{
-                    int k, m;
-                    printf("введите k(начальное значение): "); 
-                    scanf("%d", &k);
-                    printf("Введите m(конечое значение): "); 
-                    scanf("%d", &m);
-                    int c; // снова очищаем буфер
-                    while ((c = getchar()) != '\n' && c != EOF);
-                    
-                    indiks(mass, size, k, m);
+            case 'b':
+            case 'B':
+                if (massiv_sozdan) {
+                    zapolnit(massiv, razmer);
+                } else {
+                    printf("создайте массив\n");
                 }
                 break;
-            case 'f': /// ниже ср.знач (УСЛОВИЕ)
-                if (size == 0){
-                    printf("Ошибка, нужно сначала вести размер массива!\n");
-                }
-                else{
-                    int coun = srznach(mass, size);
-                    printf("Столько ниже среднего нашлось найти: %d \n", coun);
+            case 'c':
+            case 'C':
+                if (massiv_sozdan) {
+                    pokazat(massiv, razmer);
+                } else {
+                    printf("создайте массив\n");
                 }
                 break;
-            case 'g': /// выход
-                printf("Выход из программы:(\n");
+            case 'd':
+            case 'D': {
+                if (!massiv_sozdan) {
+                    printf("создайте массив\n");
+                    break;
+                }
+                int k, m;
+                printf("введите начало диапазона k: ");
+                scanf("%d", &k);
+                int c; // очистка буфера
+                while ((c = getchar()) != '\n' && c != EOF);
+                printf("введите конец диапазона m: ");
+                scanf("%d", &m);
+                int c; // очистка буфера
+                while ((c = getchar()) != '\n' && c != EOF);
+                int min_znach = nayti(massiv, razmer, k, m);
+                if (min_znach != -1) {
+                    printf("минималльной значение в диапазоне [%d,%d] это %d\n", k, m, min_znach);
+                }
                 break;
-            default: // во всех остальных случаях
-                printf("Не верно, попытайся ещё разок:)\n");
+            }
+            case 'e':
+            case 'E': {
+                if (!massiv_sozdan) {
+                    printf("создайте массив\n");
+                    break;
+                }
+                int iskom_chislo;
+                printf("введите число для поиска: ");
+                scanf("%d", &iskom_chislo);
+                int c; // очистка буфера
+                while ((c = getchar()) != '\n' && c != EOF);
+                int kolich = schitat_mezhdu(massiv, razmer, iskom_chislo);
+                if (kolich >= 0) {
+                    printf("количество элементов между двумя числами %d: %d\n", iskom_chislo, kolich);
+                }
+                break;
+            }
+            case 'f':
+            case 'F': {
+                if (!massiv_sozdan) {
+                    printf("создайте массив\n");
+                    break;
+                }
+                int granica;
+                printf("введите значение k: ");
+                scanf("%d", &granica);
+                int c; // очистка буфера
+                while ((c = getchar()) != '\n' && c != EOF);
+                nayti_index(massiv, razmer, granica);
+                break;
+            }
+            case 'g':
+            case 'G':
+                printf("выход из программы, желаю хорошего дня!\n");
+                return 0;
+                
+            default:
+                printf("неверный выбор, попробуйте снова\n");
         }
     }
-    printf("Программа завершена\n");
     return 0;
 }
