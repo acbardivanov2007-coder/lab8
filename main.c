@@ -2,12 +2,12 @@
 #include"myarrfunc.h"
 
 int main(){
-    int mass[MASSIVCHIK]; // закрепление массива тута в проге
-    int size = 0; // размер массива (добавил 0 чтоб избежать не тех значений наверняка)
-    char vibor; // для выбора
+    int mass[MASIV]; // закрепление массива в программе
+    int razmer = 0; // размер массива (добавил 0 чтоб избежать не тех значений наверняка)
+    char vvod; // для выбора
 // где написано УСЛОВИЕ- не забыть if size == 0 (чтобы программа начинала с размера массива)
     printf("Здравствуйте, добро пожаловать в мою программу, пожалуйста выберите один из вариантов: \n");
-    while(vibor != 'g') {
+    while(vvod != 'g') {
         printf("a. Задать размер массива\n");
         printf("b. Заполнить массив\n");
         printf("c. Показать массив (значения и адреса)\n");
@@ -16,47 +16,47 @@ int main(){
         printf("f. Найти элементы ниже среднего\n");
         printf("g. Выход\n");
         printf("Выберите опцию: ");
-        vibor= getchar(); // ввод варианта
-        if (vibor ==EOF){
-            printf("Ошибка:(");
+        vvod = getchar(); // ввод варианта
+        if (vvod == EOF){
+            printf("Ошибка");
             break;
         }
         int c;
-        while ((c = getchar()) != '\n' && c != EOF); // очищаем буфер после сканф
-        switch(vibor){
+        while ((c = getchar()) != '\n' && c != EOF); // очистка буфера
+        switch(vvod){
             case 'a': 
-                Velichina(&size);
+                Velichina(&razmer);
                 break;
             case 'b': /// заполнение массива (УСЛОВИЕ)
-                if (size == 0){
-                    printf("Ошибка, нужно сначала вести размер массива!\n");
+                if (razmer == 0){
+                    printf("Ошибка, введите размер массива\n");
                 }
                 else{
-                    zapolnenie(mass, size);
+                    zapolnenie(mass, razmer);
                 }
                 break;
             case 'c': /// показ массива (УСЛОВИЕ)
-                if (size == 0){
-                    printf("Ошибка, нужно сначала вести размер массива!\n");
+                if (razmer == 0){
+                    printf("Ошибка, введите размер массива\n");
                 }
                 else{
-                    pechat(mass, size);
+                    pechat(mass, razmer);
                 }
                 break;
             case 'd': /// ищем максимум(УСЛОВИЕ)
-                if (size == 0){
-                    printf("Ошибка, нужно сначала вести размер массива!\n");
+                if (razmer == 0){
+                    printf("Ошибка, введите размер массива\n");
                 }
                 else{
                     int k, m;
-                    printf("Введите k(начальный индекс): ");
+                    printf("Введите начальный диапазон k: ");
                     scanf("%d", &k);
-                    int c; /// очистка буфера после сканф
+                    int c; /// очистка буфера 
                     while ((c = getchar()) != '\n' && c != EOF);
-                    printf("Введите m(последний индекс): ");
+                    printf("Введите конечный диапазон m: ");
                     scanf("%d", &m);
                     while ((c = getchar()) != '\n' && c != EOF); // чтоб никто ничё не сломал)
-                    int max = maxrange(mass, size, k, m);
+                    int max = maxrange(mass, razmer, k, m);
                     if (max != -1){
                         printf("Макс.элемент между %d и %d это %d\n", k, m, max);
                     }
