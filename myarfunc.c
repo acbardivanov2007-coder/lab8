@@ -37,7 +37,7 @@ void pokazat(int massiv[], int razmer) {
     }
 }
 // Поиск минимального значения в диапазоне [k, m]
-int nayti_min_v_diapazone(int massiv[], int razmer, int k, int m) {
+int nayti(int massiv[], int razmer, int k, int m) {
     if (razmer <= 0) {
         printf("ошибка, создайте массив\n");
         return -1;
