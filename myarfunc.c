@@ -1,82 +1,120 @@
-#include "myarrfunc.h"
+// myarrfunc.c
 #include <stdio.h>
+#include "myarrfunc.h"
 
-void Velichina(int *size) /// размер массива
-{
-    printf("Размер массива: " );
-    scanf("%d", size);
-    if (*size <1 || *size >MASSIVCHIK){ // т.е если у нас размер меньше 1 или больше лимита, то по умолчанию ставится лимит 8
-        printf("Неверный размер, установили размер по умолчанию 8\n");
-        *size=8;
+// Создание массива
+void sozdat(int massiv[], int razmer) {
+    if (razmer <= 0) {
+        printf("Ошибка, введите значение больше 0\n");
+        return;
+    }
+    
+    // Инициализируем массив нулями
+    for (int i = 0; i < razmer; i++) {
+        massiv[i] = 0;
+    }
+    printf("массив размером %d готов\n", razmer);
+}
+
+// Заполнение массива
+void zapolnit(int massiv[], int razmer) {
+    if (razmer <= 0) {
+        printf("ошибка, создайте массив\n");
+        return;
+    }
+    
+    printf("заполните массив из %d элементов:\n", razmer);
+    for (int i = 0; i < razmer; i++) {
+        printf("элемент [%d]: ", i);
+        scanf("%d", &massiv[i]);
+    }
+    printf("массив заполнен\n");
+}
+
+// Вывод массива (значения и адреса)
+void pokazat(int massiv[], int razmer) {
+    if (razmer <= 0) {
+        printf("ошибка, создайте массив\n");
+        return;
+    }
+    for (int i = 0; i < razmer; i++) {
+        printf("%6d | %9d | %p\n", i, massiv[i], (void*)&massiv[i]);
     }
 }
-void zapolnenie(int mass[], int size) {
-    printf("Введите %d чисел через пробел: ", size);
-    int i = 0;
-    while (i<size){
-        if (scanf("%d", &mass[i])==1){
-            i++;
-        }else{
-            int c;// очищаем предыдущий ввод и заполняем снова если ошибка
-            while ((c = getchar()) != '\n' && c != EOF);
-            printf("Ойойой, ошибочка, заново введи число для %d в массиве",i);
+
+// Поиск минимального значения в диапазоне [k, m]
+int nayti_min_v_diapazone(int massiv[], int razmer, int k, int m) {
+    if (razmer <= 0) {
+        printf("ошибка, создайте массив\n");
+        return -1;
+    }
+    
+    if (k < 0 || m >= razmer || k > m) {
+        printf("Oshibka: neverny diapazon!\n");
+        return -1;
+    }
+    
+    int min = massiv[k];
+    for (int i = m + 1; i <= konec; i++) {
+        if (massiv[i] < minimum) {
+            minimum = massiv[i];
         }
     }
-    int c; // очистка буфера
-    while ((c = getchar()) != '\n' && c != EOF);
-    printf("Молодчина, вы заполнили массив");
+    return minimum;
 }
-void pechat(int mass[], int size){ /// вывоод элементов массива и адреса
-    printf("Элементы массива: ");
-    for (int i=0; i<size; i++){
-        printf("%d ",mass[i]);
+
+// Количество элементов между двумя равными числами
+int schitat_mezhdu_ravnimi(int massiv[], int razmer, int iskomoe) {
+    if (razmer <= 0) {
+        printf("Oshibka: massiv ne sozdan!\n");
+        return -1;
+    }
+    
+    int pervy_index = -1, posledny_index = -1;
+    
+    // Находим первое вхождение
+    for (int i = 0; i < razmer; i++) {
+        if (massiv[i] == iskomoe) {
+            pervy_index = i;
+            break;
+        }
+    }
+    
+    // Находим последнее вхождение
+    for (int i = razmer - 1; i >= 0; i--) {
+        if (massiv[i] == iskomoe) {
+            posledny_index = i;
+            break;
+        }
+    }
+    
+    if (pervy_index == -1 || posledny_index == -1 || pervy_index == posledny_index) {
+        printf("Chislo %d ne naideno ili naideno tolko odin raz\n", iskomoe);
+        return 0;
+    }
+    
+    int kolichestvo = posledny_index - pervy_index - 1;
+    return (kolichestvo > 0) ? kolichestvo : 0;
+}
+
+// Поиск индексов элементов меньше granica
+void nayti_indexy_menche(int massiv[], int razmer, int granica) {
+    if (razmer <= 0) {
+        printf("Oshibka: massiv ne sozdan!\n");
+        return;
+    }
+    
+    printf("Indexy elementov menche %d: ", granica);
+    int naideno = 0;
+    for (int i = 0; i < razmer; i++) {
+        if (massiv[i] < granica) {
+            printf("%d ", i);
+            naideno = 1;
+        }
+    }
+    
+    if (!naideno) {
+        printf("ne naideno");
     }
     printf("\n");
-    printf("Адреса элементов ");
-    for (int i=0; i< size; i++){
-        printf("%p ", (void*)&mass[i]); // вывод %p для указателей, void* типа разорхивация из массива
-    }
-    printf("\n");
-}
-int maxrange(int mass[], int size, int k, int m){ // вывод макс.элемента из диапозона
-    if (k<0 || m>size || k>m){
-        printf("Ошибка, неправильный диапозн");
-        return -1; // потому что отрицательное число и будет выводить ошибку
-    }
-    int max = mass[k]; // счет с 1 элемента
-    for (int i= k;i<=m;i++){ 
-        if (mass[i]>max){ /// если след.символ меньше нынешнего макса, то макс присваивает новое значение
-            max=mass[i];
-        }
-    }
-    return max;
-}
-void indiks(int mass[],int size, int k, int m){ 
-    printf("Индексы элементов от %d до %d: ", k,m);
-    int kololo= 0; // счетчик который будет выводить сколько элементов тут
-    for (int i=0; i<size;i++){
-        if (mass[i]>=k && mass[i]<= m ) {/// т.е у на беребираются каждые числа из массива и ищутся те которые указаны в диапазоне
-        printf("%d ",i);
-        kololo=1; // т.е нашли элемент
-        }
-    }
-    if (kololo!=1){
-        printf("ничего не нашлось:(");
-    }
-    printf("\n");
-}
-int srznach(int mass[], int size){ /// подсчет элементов которые ниже среднего
-    float suma=0; 
-    for (int i=0; i<size; i++){
-        suma+=mass[i];
-    }
-    float znach= suma/size; 
-    printf("Ср.значение массива: %.4f \n", znach);
-    int nicha=0; // счетчик для элементов ниже ср.знач
-    for (int i=0; i<size;i++){
-        if (mass[i]<znach){
-            nicha++;
-        }
-    }
-    return nicha;
 }
