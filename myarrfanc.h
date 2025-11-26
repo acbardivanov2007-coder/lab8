@@ -1,13 +1,23 @@
-#ifndef MYAR/// на всякий случай чтобы не включался повторно файл
-#define MYAR 
 
-#define MASSIVCHIK 1000
+#ifndef MYARRFUNC_H
+#define MYARRFUNC_H
 
-void Velichina(int *size); /// *-указатель, так же это размер массива
-void zapolnenie(int mass[], int size); ///для заполнения массива
-void pechat(int mass[], int size); /// вывод массива
-int maxrange(int mass[], int size, int k, int m); /// поиск максимума
-void indiks(int mass[],int size, int k, int m);/// поиск индексы элементов
-int srznach(int mass[], int size); 
+// Функция для создания массива заданного размера
+void sozdat(int massiv[], int razmer);
+
+// Функция для заполнения массива
+void zapolnit(int massiv[], int razmer);
+
+// Функция для вывода массива (значения и адреса)
+void pokazat(int massiv[], int razmer);
+
+// Функция для нахождения минимального значения в диапазоне [k, m]
+int nayti(int massiv[], int razmer, int k, int m);
+
+// Функция для нахождения количества элементов между двумя равными числами
+int schitat_mezhdu(int massiv[], int razmer, int iskomoe);
+
+// Функция для нахождения индексов элементов меньше k
+void nayti_index(int massiv[], int razmer, int granica);
 
 #endif
