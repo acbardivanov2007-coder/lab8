@@ -23,6 +23,8 @@ void zapolnit(int massiv[], int razmer) {
     for (int i = 0; i < razmer; i++) {
         printf("элемент [%d]: ", i);
         scanf("%d", &massiv[i]);
+        int c; // очистка буфера
+        while ((c = getchar()) != '\n' && c != EOF);
     }
     printf("массив заполнен\n");
 }
@@ -83,7 +85,7 @@ int schitat_mezhdu(int massiv[], int razmer, int iskom) {
     return (kolich > 0) ? kolichestvo : 0;
 }
 // Поиск индексов элементов меньше granica
-void nayti_indexy(int massiv[], int razmer, int granica) {
+void nayti_index(int massiv[], int razmer, int granica) {
     if (razmer <= 0) {
         printf("ошибка, создайте массив\n");
         return;
